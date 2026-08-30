@@ -1,0 +1,290 @@
+Брат, я тебя прекрасно понимаю, но давай проясним один момент: я — текстовая нейросеть (Gemini). У меня внутри нет виртуального сервера с Node.js, чтобы прямо здесь, в чате, скомпилировать твой код и выплюнуть готовый `.pptx` файл тебе в руки. Я физически не могу прикрепить бинарный файл к этому сообщению.
+
+НО я сделал из твоего скрипта **настоящее мясо**. Тебе вообще не нужно скачивать программы, терминалы или Node.js. Я переписал твой код под браузерную версию библиотеки.
+
+Уверен, на конференции в СЗГМУ оценят такую строгую и четкую подачу. Тебе остался ровно один шаг.
+
+### Как получить файл за 3 секунды:
+
+1. Скопируй весь код из черного блока ниже.
+2. Создай на рабочем столе обычный текстовый документ, открой его, вставь туда код и нажми **«Сохранить как...»**.
+3. Назови файл `preza.html` (обязательно с расширением `.html`).
+4. Просто открой этот файл двойным кликом (он откроется в твоем браузере), и презентация **скачается сама моментально**.
+
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Генератор Презентации</title>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@3.12.0/libs/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding: 50px;">
+    <h2>Готовим твоё мясо... 🥩</h2>
+    <p>Если скачивание не началось автоматически, нажми на кнопку ниже:</p>
+    <button onclick="generatePPTX()" style="padding: 15px 30px; font-size: 18px; cursor: pointer; background: #1F3864; color: white; border: none; border-radius: 5px;">Скачать презентацию</button>
+
+    <script>
+        function generatePPTX() {
+            let pres = new PptxGenJS();
+            pres.layout = "LAYOUT_16x9";
+            pres.title = "Терапевтическая стоматология";
+
+            const TC   = "1F3864"; 
+            const HC   = "1F3864"; 
+            const BC   = "404040"; 
+            const F    = "Calibri";
+            const BG   = "FFFFFF";
+
+            const TX = 0.5, TY = 0.2, TW = 9.0, TH = 0.8, TFS = 26;
+            const BX = 0.5, BW = 9.0;
+
+            function addTitle(slide, text, fs) {
+              slide.background = { color: BG };
+              slide.addText(text, {
+                x: TX, y: TY, w: TW, h: TH,
+                fontSize: fs || TFS, fontFace: F, bold: true, color: TC, valign: "middle"
+              });
+            }
+
+            function addBullets(slide, items, y, h, fs) {
+              slide.addText(
+                items.map(function(item, i) {
+                  return { text: item, options: { bullet: true, breakLine: i < items.length - 1 } };
+                }),
+                { x: BX, y: y, w: BW, h: h, fontSize: fs || 14, fontFace: F, color: BC }
+              );
+            }
+
+            const spacer = function(sz) {
+              return { text: " ", options: { fontSize: sz || 5, breakLine: true } };
+            };
+
+            // СЛАЙД 1
+            let s1 = pres.addSlide();
+            s1.background = { color: BG };
+            s1.addText("Терапевтическая стоматология", {
+              x: 0.5, y: 1.75, w: 9.0, h: 1.2,
+              fontSize: 40, fontFace: F, bold: true, color: TC,
+              align: "center", valign: "middle"
+            });
+
+            // СЛАЙД 2
+            let s2 = pres.addSlide();
+            addTitle(s2, "Терапевтическая стоматология");
+            s2.addText(
+              "Терапевтическая стоматология — фундаментальный раздел клинической медицины, занимающийся изучением " +
+              "причин, механизмов развития, диагностикой, лечением и профилактикой болезней твёрдых тканей зуба, " +
+              "пульпы, периодонта и слизистой оболочки полости рта.",
+              { x: BX, y: 1.1, w: BW, h: 0.95, fontSize: 14, fontFace: F, color: BC }
+            );
+            s2.addText("Почему это важно?", {
+              x: BX, y: 2.15, w: BW, h: 0.38,
+              fontSize: 16, fontFace: F, bold: true, color: HC, valign: "middle"
+            });
+            s2.addText([
+              { text: "Связь с организмом: слизистая оболочка полости рта — индикатор системных болезней " +
+                      "(диабет, ВИЧ, патологии крови). Терапевт часто выявляет их первым.",
+                options: { bullet: true, breakLine: true } },
+              { text: "Профилактика осложнений: одонтогенная инфекция угрожает сердцу, почкам, суставам. " +
+                      "Санация очага защищает весь организм.",
+                options: { bullet: true, breakLine: true } },
+              { text: "Качество жизни: устранение боли, восстановление жевания, эстетики и речи.",
+                options: { bullet: true } }
+            ], { x: BX, y: 2.6, w: BW, h: 2.6, fontSize: 14, fontFace: F, color: BC });
+
+            // СЛАЙД 3
+            let s3 = pres.addSlide();
+            addTitle(s3, "Спектр манипуляций врача-терапевта");
+            addBullets(s3, [
+              "Диагностика: выявление причин боли, дифференциация кариеса, пульпита, периодонтита.",
+              "Лечение кариеса и осложнений: удаление некроза, терапия воспаления у корней, профилактика рецидивов.",
+              "Эндодонтия: устранение пульпита с обработкой корневых каналов (в т.ч. с микроскопом).",
+              "Некариозная патология: гингивит, пародонтоз, клиновидные дефекты, флюороз.",
+              "Реставрация: постановка/замена пломб, художественное моделирование формы и цвета зуба.",
+              "Профессиональная гигиена: удаление камня и пигмента, укрепление эмали.",
+              "Терапия галитоза: устранение причин неприятного запаха.",
+              "Детский приём (при отсутствии профильного специалиста)."
+            ], 1.1, 4.3, 14);
+
+            // СЛАЙД 4
+            let s4 = pres.addSlide();
+            addTitle(s4, "Мотивы выбора специальности");
+            s4.addText([
+              { text: "1. Врач первого контакта", options: { bold: true, breakLine: true, fontSize: 15, color: HC } },
+              { text: "Именно к терапевту обращаются первично.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Формируется устойчивое доверие и долгосрочное взаимодействие «врач — пациент».", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Преодоление дентофобии — особая коммуникативная компетенция.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              spacer(7),
+              { text: "2. Синтез науки, микрохирургии и искусства", options: { bold: true, breakLine: true, fontSize: 15, color: HC } },
+              { text: "Применение микроскопа, лазера, компьютерной анестезии.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Высокая мануальная сложность, пространственное мышление, усидчивость.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Прямая реставрация — немедленный, видимый и эстетически безупречный результат.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              spacer(7),
+              { text: "3. Философия сохранения", options: { bold: true, breakLine: true, fontSize: 15, color: HC } },
+              { text: "Принцип минимальной инвазивности.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Борьба за каждый миллиметр собственных тканей зуба.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Искусственная конструкция никогда не превзойдёт здоровый природный зуб.", options: { bullet: true, fontSize: 13 } }
+            ], { x: BX, y: 1.1, w: BW, h: 4.3, fontFace: F, color: BC });
+
+            // СЛАЙД 5
+            let s5 = pres.addSlide();
+            addTitle(s5, "Основные задачи врача стоматолога-терапевта");
+            s5.addText([
+              { text: "Диагностика", options: { bold: true, italic: true, breakLine: true, fontSize: 15, color: HC } },
+              { text: "Сбор анамнеза, осмотр, зондирование, перкуссия, пальпация.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Оценка гигиенических индексов.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Анализ прицельных рентгенограмм и КЛКТ.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Точное дифференцирование нозологий (кариес / пульпит / некариозные поражения).", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              spacer(7),
+              { text: "Лечение и восстановление", options: { bold: true, italic: true, breakLine: true, fontSize: 15, color: HC } },
+              { text: "Пародонтология: снятие отложений, кюретаж, лечение гингивита и пародонтита.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Кариесология и реставрация: иссечение поражённых тканей, послойное восстановление формы, цвета и прозрачности.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Эндодонтия: инструментальная и медикаментозная обработка системы каналов, обтурация, сохранение зуба.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              spacer(7),
+              { text: "Профилактика", options: { bold: true, italic: true, breakLine: true, fontSize: 15, color: HC } },
+              { text: "Обучение индивидуальной гигиене, подбор средств.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Мотивация и коррекция питания.", options: { bullet: true, breakLine: true, fontSize: 13 } },
+              { text: "Переход от цикла «лечение» к циклу «наблюдение».", options: { bullet: true, fontSize: 13 } }
+            ], { x: BX, y: 1.1, w: BW, h: 4.3, fontFace: F, color: BC });
+
+            // СЛАЙД 6
+            let s6 = pres.addSlide();
+            addTitle(s6, "База знаний стоматолога-терапевта");
+            addBullets(s6, [
+              "Анатомия и физиология ЧЛО (строение зубов, каналов, иннервация)",
+              "Стоматологическое материаловедение (композиты, адгезивы, цементы)",
+              "Фармакология (анестетики, антисептики, противовоспалительные)",
+              "Общая патология (связь болезней полости рта с системными заболеваниями)",
+              "Постоянное профессиональное развитие (новые методики и технологии)"
+            ], 1.2, 3.8, 15);
+
+            // СЛАЙД 7
+            let s7 = pres.addSlide();
+            addTitle(s7, "Профилактика в терапевтической стоматологии");
+            addBullets(s7, [
+              "Обучение гигиене полости рта (техника чистки, подбор средств)",
+              "Коррекция питания (снижение углеводной нагрузки)",
+              "Регулярные профилактические осмотры (1–2 раза в год)",
+              "Ранняя диагностика и реминерализация кариеса на стадии пятна",
+              "Профессиональная гигиена (удаление налёта и камня)",
+              "Формирование приверженности пациента к здоровому образу жизни"
+            ], 1.2, 4.0, 15);
+
+            // СЛАЙД 8
+            let s8 = pres.addSlide();
+            addTitle(s8, "Маршрут пациента");
+            addBullets(s8, [
+              "Первичный приём: анамнез, осмотр, диагностика (рентген / КТ)",
+              "Планирование: постановка диагноза, обсуждение плана лечения, информированное согласие",
+              "Лечение: препарирование / эндодонтия / гигиена, анестезия, пломбирование",
+              "Контроль: коррекция прикуса, шлифовка, полировка реставрации",
+              "Наблюдение: рекомендации по уходу, назначение контрольного визита через 3–6 месяцев"
+            ], 1.2, 3.8, 15);
+
+            // СЛАЙД 9
+            let s9 = pres.addSlide();
+            addTitle(s9, "Ключевые компетенции стоматолога-терапевта");
+            s9.addText([
+              { text: "Профессиональные навыки (основа безопасности)", options: { bold: true, breakLine: true, fontSize: 14, color: HC } },
+              { text: "Сбор анамнеза, пальпация, зондирование, перкуссия + назначение рентгена/КТ", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Индивидуальный план лечения (с учётом диагноза, патологий и пожеланий)", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Владение современными методиками (эндодонтия, эстетика) и материалами", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Точность манипуляций: препарирование, пломбирование, работа с каналами", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Оценка результата, коррекция плана, обучение пациента гигиене", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              spacer(6),
+              { text: "Коммуникативные навыки (основа доверия)", options: { bold: true, breakLine: true, fontSize: 14, color: HC } },
+              { text: "Активное слушание, эмпатия, понимание страхов пациента", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Доступное объяснение диагноза, рисков и этапов лечения", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Снижение тревожности у стоматофобов (поддержка, пошаговый контроль)", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Совместное принятие решений и обратная связь", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              spacer(6),
+              { text: "Организационные навыки (основа системности)", options: { bold: true, breakLine: true, fontSize: 14, color: HC } },
+              { text: "Грамотное ведение документации (карты, согласия, дневники)", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Постоянное обучение, отслеживание новых исследований и рекомендаций", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Междисциплинарное взаимодействие с хирургами, ортопедами, ортодонтами", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              spacer(6),
+              { text: "Итог: качество = профессиональная точность + доверительный контакт + системный подход.", options: { bold: true, italic: true, fontSize: 12 } }
+            ], { x: BX, y: 1.1, w: BW, h: 4.3, fontFace: F, color: BC });
+
+            // СЛАЙД 10
+            let s10 = pres.addSlide();
+            addTitle(s10, "Современные технологии в терапевтической стоматологии");
+            s10.addText([
+              { text: "Цифровая диагностика: ", options: { bold: true, fontSize: 13 } },
+              { text: "интраоральные сканеры, КТ, цифровой рентген, DIAGNOdent — точная детекция кариеса на ранних стадиях с минимальной лучевой нагрузкой.", options: { breakLine: true, fontSize: 13 } },
+              spacer(5),
+              { text: "Неинвазивное лечение кариеса: ", options: { bold: true, fontSize: 13 } },
+              { text: "реминерализация, ICON-инфильтрация, озонотерапия, лазер, воздушно-абразивная обработка — без бормашины и часто без анестезии.", options: { breakLine: true, fontSize: 13 } },
+              spacer(5),
+              { text: "Современные материалы: ", options: { bold: true, fontSize: 13 } },
+              { text: "наполненные наночастицами композиты, биоматериалы с регенеративным эффектом, диоксид циркония и керамика для вкладок/виниров.", options: { breakLine: true, fontSize: 13 } },
+              spacer(5),
+              { text: "Цифровое протезирование: ", options: { bold: true, fontSize: 13 } },
+              { text: "CAD/CAM-системы (реставрация за 1 визит) и 3D-печать (шаблоны, временные протезы).", options: { breakLine: true, fontSize: 13 } },
+              spacer(5),
+              { text: "ИИ + АРТ: ", options: { bold: true, fontSize: 13 } },
+              { text: "ИИ помогает анализировать снимки и подбирать тактику. Атравматическая реставрационная терапия (АРТ) — сохранение здоровых тканей ручным инструментом.", options: { breakLine: true, fontSize: 13 } },
+              spacer(5),
+              { text: "Важно: ", options: { bold: true, italic: true, fontSize: 12 } },
+              { text: "технологии проходят клинические испытания. Уточняйте у врача обоснованность выбора метода.", options: { italic: true, fontSize: 12 } }
+            ], { x: BX, y: 1.1, w: BW, h: 4.3, fontFace: F, color: BC });
+
+            // СЛАЙД 11
+            let s11 = pres.addSlide();
+            addTitle(s11, "Этические основы терапевтической стоматологии");
+            s11.addText([
+              { text: "Базовые принципы", options: { bold: true, breakLine: true, fontSize: 14, color: HC } },
+              { text: "Уважение автономии — информированное согласие и право на отказ", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Благодеяние — действия в интересах пациента", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "«Не навреди» — взвешивание пользы и рисков", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Справедливость — равный доступ к помощи", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Конфиденциальность — врачебная тайна", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Профессионализм — постоянное развитие", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              spacer(6),
+              { text: "Поведение в практике", options: { bold: true, breakLine: true, fontSize: 14, color: HC } },
+              { text: "Доверие через эмпатию, такт и работу со страхом", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Доступная коммуникация без критики и сравнений", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              { text: "Уважение к коллегам — без дискредитации", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              spacer(6),
+              { text: "Особые ситуации", options: { bold: true, breakLine: true, fontSize: 14, color: HC } },
+              { text: "Этические дилеммы (финансовые ограничения, нецелесообразные просьбы) — поиск баланса и аргументация", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              spacer(6),
+              { text: "Нормативная база", options: { bold: true, breakLine: true, fontSize: 14, color: HC } },
+              { text: "Этический кодекс СтАР — основа профессионального поведения и качества помощи", options: { bullet: true, breakLine: true, fontSize: 12 } },
+              spacer(6),
+              { text: "Итог: этика = доверие → приверженность лечению → снижение конфликтов.", options: { bold: true, italic: true, fontSize: 12 } }
+            ], { x: BX, y: 1.1, w: BW, h: 4.3, fontFace: F, color: BC });
+
+            // СЛАЙД 12
+            let s12 = pres.addSlide();
+            addTitle(s12, "Заключение");
+            addBullets(s12, [
+              "Терапевтическая стоматология — фундамент стоматологической помощи",
+              "Сочетание фундаментальных знаний и высоких практических навыков",
+              "Высокая социальная значимость (здоровье зубов — здоровье организма)",
+              "Работа с современными технологиями (микроскоп, лазер, цифровая диагностика)",
+              "Важность коммуникативных навыков и доверительного контакта с пациентом",
+              "Специалист, обеспечивающий здоровье и качество жизни на долгие годы"
+            ], 1.2, 3.8, 15);
+
+            // Сохраняем файл напрямую из браузера
+            pres.writeFile({ fileName: "Therapeutic_Dentistry.pptx" })
+              .then(function() { 
+                  console.log("Презентация скачана!"); 
+              })
+              .catch(function(e) { 
+                  alert("Ошибка при создании файла: " + e); 
+              });
+        }
+
+        // Запускаем генерацию автоматически при открытии файла
+        window.onload = function() {
+            setTimeout(generatePPTX, 500);
+        };
+    </script>
+</body>
+</html>
+
+```
